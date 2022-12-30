@@ -15,5 +15,5 @@ if (type === InteractionType.PING) {
 
   if (nome === "mensagem") require("./slashCommands/msg/total.js")(req, res);
   
-
+ if (nome === "user-avatar") require("./slashCommands/utils/avatar.js")(req, res);
 };

@@ -15,6 +15,18 @@ const comandos = [
         required: false
       }
     ]
+  },{
+    name: "user-avatar",
+    description: "Veja o avatar de Alguém",
+    type: 1,
+    options: [
+      {
+        name: "membro",
+        description: "Mencione o usuário",
+        type: 6,
+        required: true
+      }
+    ]
   }
 ]
 

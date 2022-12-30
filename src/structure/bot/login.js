@@ -1,8 +1,12 @@
 module.exports = (token, status) => {
+
+
+  
 const WebSocket = require("ws");
 const ws = new WebSocket("wss://gateway.discord.gg/?v=6&encoding=json");
 const c = require("colors")
-
+let interval = 0;
+  
   if (status === null) status = [{
     name: "com ThallesKraft",
     type: 0
@@ -18,7 +22,6 @@ const data = {
          $browser: "chrome",
          $device: "chrome",
      },    
-    compress: true,
     large_threshold: 250,
     shard: [0, 1],
     presence: {
@@ -39,9 +42,33 @@ const data = {
 
 })
 
-  return ws;
+ ws.on("message", function incoming(a) {
+ 
+    let payload = JSON.parse(a);
+
+    const { t, op, d } = payload;
+
+   switch (op) {
+      case 10:
+        const { heartbeat_interval } = d;
+
+           interval = heartbeat(heartbeat_interval);
+        
+          break;
+   }
+
+   switch (t){
+      case "MESSAGE_CREATE":
+       require("./msg.js")(d);
+       }
+   
+})
   
 
-
+const heartbeat = (ms) => {
+  return setInterval(() => {
+    ws.send(JSON.stringify({op: 2, d: null}))
+  }, ms)
+}
 
 }
